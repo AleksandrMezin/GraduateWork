@@ -13,7 +13,7 @@ type Comment struct {
 	Text string `json:"text"`
 }
 
-var forbiddenWords = []string{"пизда", "хуй"} // Specific words not allowed
+var forbiddenWords = []string{"qwerty", "йцукен", "zxvbnm"} // Specific words not allowed
 
 func main() {
 	http.HandleFunc("/censor", censorHandler)

@@ -230,3 +230,41 @@ func (h *Handler) sendJSONResponse(w http.ResponseWriter, response *NewsResponse
 		return
 	}
 }
+
+func ForwardNewsRequest(w http.ResponseWriter, r *http.Request) {
+	resp, err := http.Get("https://newsapi.org/v2/top-headlines?country=us&apiKey=818fab7db99641809f117b29d2ffcfe8") // замените на URL вашего сервиса новостей.
+	if err != nil {
+		http.Error(w, err.Error(), http.StatusInternalServerError)
+		return
+	}
+
+	defer resp.Body.Close()
+
+	body, err := ioutil.ReadAll(resp.Body)
+	if err != nil {
+		http.Error(w, err.Error(), http.StatusInternalServerError)
+		return
+	}
+
+	w.Header().Set("Content-Type", "application/json")
+	w.Write(body)
+}
+
+func (h *Handler) ForwardNewsRequest(w http.ResponseWriter, r *http.Request) {
+	resp, err := http.Get("https://newsapi.org/v2/top-headlines?country=us&apiKey=818fab7db99641809f117b29d2ffcfe8") // Замените на URL вашего API новостей.
+	if err != nil {
+		http.Error(w, err.Error(), http.StatusInternalServerError)
+		return
+	}
+
+	defer resp.Body.Close()
+
+	body, err := ioutil.ReadAll(resp.Body)
+	if err != nil {
+		http.Error(w, err.Error(), http.StatusInternalServerError)
+		return
+	}
+
+	w.Header().Set("Content-Type", "application/json")
+	w.Write(body)
+}

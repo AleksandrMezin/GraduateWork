@@ -29,12 +29,13 @@ func main() {
 		log.Fatal("NEWS_SERVICE_URL or COMMENT_SERVICE_URL not set")
 	}
 
-	// Заменяем функции обработчика в соответствии с новым типом Handler
 	newsHandler := middleware.LoggingMiddleware(http.HandlerFunc(handler.NewsHandler))
 	newsDetailHandler := middleware.LoggingMiddleware(http.HandlerFunc(handler.NewsDetailHandler))
 	newsFilterHandler := middleware.LoggingMiddleware(http.HandlerFunc(handler.NewsFilterHandler))
 	addCommentHandler := middleware.LoggingMiddleware(http.HandlerFunc(handler.AddComment))
 	getCommentsHandler := middleware.LoggingMiddleware(http.HandlerFunc(handler.GetComments))
+	forwardNewsRequestHandler := middleware.LoggingMiddleware(http.HandlerFunc(handler.ForwardNewsRequest))
+	http.Handle("/forward-news", forwardNewsRequestHandler)
 	http.Handle("/comments/get", getCommentsHandler)
 	http.Handle("/news", newsHandler)
 	http.Handle("/news/details", newsDetailHandler)
